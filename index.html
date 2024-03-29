@@ -1,9 +1,295 @@
-<h1>JavaScript Objectball</h1>
-<p>
-  Open your Chrome dev tools to see console output and trigger the debugger to
-  catch.
-</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basketball Game</title>
+</head>
+<body>
 
-<script src="./src/00-objectball.js"></script>
-<script src="./src/01-simple-debug.js"></script>
-<!-- <script src="./src/02-advanced-debug.js"></script> -->
+<script>
+  // Data structure representing the game object
+  let game = {
+    "home": {
+      "teamName": "Brooklyn Nets",
+      "colors": ["Black", "White"],
+      "players": [
+        {
+          "playerName": "Alan Anderson",
+          "number": 0,
+          "shoe": 16,
+          "points": 22,
+          "rebounds": 12,
+          "assists": 12,
+          "steals": 3,
+          "blocks": 1,
+          "slamDunks": 1
+        },
+        {
+          "playerName": "Reggie Evans",
+          "number": 30,
+          "shoe": 14,
+          "points": 12,
+          "rebounds": 12,
+          "assists": 12,
+          "steals": 12,
+          "blocks": 12,
+          "slamDunks": 7
+        },
+        // More players...
+      ]
+    },
+    "away": {
+      "teamName": "Charlotte Hornets",
+      "colors": ["Turquoise", "Purple"],
+      "players": [
+        {
+          "playerName": "Jeff Adrien",
+          "number": 4,
+          "shoe": 18,
+          "points": 10,
+          "rebounds": 1,
+          "assists": 1,
+          "steals": 2,
+          "blocks": 7,
+          "slamDunks": 2
+        },
+        {
+          "playerName": "Bismack Biyombo",
+          "number": 0,
+          "shoe": 16,
+          "points": 12,
+          "rebounds": 4,
+          "assists": 7,
+          "steals": 22,
+          "blocks": 15,
+          "slamDunks": 10
+        },
+        // More players...
+      ]
+    }
+  };
+
+  // Function to get the number of points scored by a player
+  function numPointsScored(playerName) {
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPlayers = game[team].players;
+        for (let player in teamPlayers) {
+          if (teamPlayers[player].playerName === playerName) {
+            console.log(`${playerName} has scored ${teamPlayers[player].points} points.`);
+            return teamPlayers[player].points;
+          }
+        }
+      }
+    }
+  }
+
+  // Function to get the shoe size of a player
+  function shoeSize(playerName) {
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPlayers = game[team].players;
+        for (let player in teamPlayers) {
+          if (teamPlayers[player].playerName === playerName) {
+            console.log(`${playerName}'s shoe size is ${teamPlayers[player].shoe}.`);
+            return teamPlayers[player].shoe;
+          }
+        }
+      }
+    }
+  }
+
+  // Function to get the colors of a team
+  function teamColors(teamName) {
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        if (game[team].teamName === teamName) {
+          console.log(`${teamName} team colors are: ${game[team].colors.join(', ')}.`);
+          return game[team].colors;
+        }
+      }
+    }
+  }
+
+  // Function to get the names of all teams
+  function teamNames() {
+    let names = [];
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        names.push(game[team].teamName);
+      }
+    }
+    console.log(`Team names: ${names.join(', ')}.`);
+    return names;
+  }
+
+  // Function to get the jersey numbers of players in a team
+  function playerNumbers(teamName) {
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        if (game[team].teamName === teamName) {
+          let numbers = [];
+          let teamPlayers = game[team].players;
+          for (let player in teamPlayers) {
+            numbers.push(teamPlayers[player].number);
+          }
+          console.log(`${teamName} player numbers: ${numbers.join(', ')}.`);
+          return numbers;
+        }
+      }
+    }
+  }
+
+  // Function to get the stats of a player
+  function playerStats(playerName) {
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPlayers = game[team].players;
+        for (let player in teamPlayers) {
+          if (teamPlayers[player].playerName === playerName) {
+            console.log(`${playerName}'s stats:`, teamPlayers[player]);
+            return teamPlayers[player];
+          }
+        }
+      }
+    }
+  }
+
+  // Function to get the number of rebounds associated with the player with the largest shoe size
+  function bigShoeRebounds() {
+    let largestShoeSize = 0;
+    let rebounds = 0;
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPlayers = game[team].players;
+        for (let player in teamPlayers) {
+          if (teamPlayers[player].shoe > largestShoeSize) {
+            largestShoeSize = teamPlayers[player].shoe;
+            rebounds = teamPlayers[player].rebounds;
+          }
+        }
+      }
+    }
+    console.log(`Rebounds associated with the player with the largest shoe size: ${rebounds}.`);
+    return rebounds;
+  }
+
+  // Function to get the player with the most points
+  function mostPointsScored() {
+    let maxPoints = 0;
+    let playerWithMostPoints = "";
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPlayers = game[team].players;
+        for (let player in teamPlayers) {
+          if (teamPlayers[player].points > maxPoints) {
+            maxPoints = teamPlayers[player].points;
+            playerWithMostPoints = teamPlayers[player].playerName;
+          }
+        }
+      }
+    }
+    console.log(`Player with the most points: ${playerWithMostPoints}.`);
+    return playerWithMostPoints;
+  }
+
+  // Function to get the team with the most points
+  function winningTeam() {
+    let maxPoints = 0;
+    let winningTeam = "";
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPoints = game[team].players.reduce((acc, player) => acc + player.points, 0);
+        if (teamPoints > maxPoints) {
+          maxPoints = teamPoints;
+          winningTeam = game[team].teamName;
+        }
+      }
+    }
+    console.log(`Team with the most points: ${winningTeam}.`);
+    return winningTeam;
+  }
+
+  // Function to get the player with the longest name
+  function playerWithLongname() {
+    let longestName = "";
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPlayers = game[team].players;
+        for (let player in teamPlayers) {
+          if (teamPlayers[player].playerName.length > longestName.length) {
+            longestName = teamPlayers[player].playerName;
+          }
+        }
+      }
+    }
+    console.log(`Player with the longest name: ${longestName}.`);
+    return longestName;
+  }
+
+  // Function to check if the player with the longest name has the most steals
+    function doesLongNameStealATon() {
+    let mostSteals = 0;
+    let longNameSteals = 0;
+    let playerWithMostSteals = "";
+    let longestName = playerWithLongestName(); // Corrected function call
+
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPlayers = game[team].players;
+        for (let player in teamPlayers) {
+          if (teamPlayers[player].steals > mostSteals) {
+            mostSteals = teamPlayers[player].steals;
+            playerWithMostSteals = teamPlayers[player].playerName;
+          }
+          if (teamPlayers[player].playerName === longestName) { // Corrected variable name
+            longNameSteals = teamPlayers[player].steals;
+          }
+        }
+      }
+    }
+
+    if (longNameSteals > 10) {
+      console.log(`Yes, ${longestName} steals a ton!`);
+      return true;
+    } else {
+      console.log(`No, ${longestName} does not steal a ton.`);
+      return false;
+    }
+  }
+  // Function to get the player with the longest name
+  function playerWithLongestName() {
+    let longestName = "";
+    for (let team in game) {
+      if (game.hasOwnProperty(team)) {
+        let teamPlayers = game[team].players;
+        for (let player in teamPlayers) {
+          if (teamPlayers[player].playerName.length > longestName.length) {
+            longestName = teamPlayers[player].playerName;
+          }
+        }
+      }
+    }
+    console.log(`Player with the longest name: ${longestName}.`);
+    return longestName;
+  }
+
+
+  // Testing the functions
+  numPointsScored("Alan Anderson");
+  shoeSize("Bismack Biyombo");
+  teamColors("Charlotte Hornets");
+  teamNames();
+  playerNumbers("Brooklyn Nets");
+  playerStats("Jeff Adrien");
+  bigShoeRebounds();
+  mostPointsScored();
+  winningTeam();
+  playerWithLongestName();
+  doesLongNameStealATon();
+</script>
+
+</body>
+</html>
+
